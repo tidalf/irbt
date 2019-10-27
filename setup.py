@@ -11,7 +11,10 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='irbt',
-    version='0.1',
+    version_config={
+        "version_format": "{tag}.dev{sha}",
+        "starting_version": "0.3.0"
+    },
     author='Cyril Leclerc',
     author_email='cyril.leclerc@gmail.com',
     description='A Library to interact with irbt appliances',
@@ -26,4 +29,5 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.6',
+    setup_requires=['better-setuptools-git-version'],
 )
