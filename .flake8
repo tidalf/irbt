@@ -1,0 +1,37 @@
+# .flake8
+#
+# DESCRIPTION
+#       Configuration file for the python linter flake8.
+#
+#       This configuration is based on the generic
+#       configuration published on GitHub.
+#
+# AUTHOR   krnd
+# VERSION  v1.0
+#
+# SEE ALSO
+#       http://flake8.pycqa.org/en/latest/user/options.html
+#       http://flake8.pycqa.org/en/latest/user/error-codes.html
+#       http://pycodestyle.readthedocs.io/en/latest/intro.html#error-codes
+#       http://gist.github.com/krnd
+#
+
+[flake8]
+# Increase the verbosity of Flake8’s output.
+verbose = 0
+# Decrease the verbosity of Flake8’s output.
+quiet = 0
+ignore = D203
+
+########## FORMATTING ##########
+# Select the formatter used to display errors to the user.
+format = default
+# Print the total number of errors.
+count = True
+# Print the source code generating the error/warning in question.
+show-source = True
+# Count the number of occurrences of each error/warning code and print a report.
+statistics = True
+
+exclude = .git,__pycache__,docs/source/conf.py,old,build,dist,env
+# hang-closing = True

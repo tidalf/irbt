@@ -1,0 +1,7 @@
+sslkeylog.txt
+*/__pycache__
+.vscode/*
+env/
+.flake8.log
+.coverage
+coverage.xml
