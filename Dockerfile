@@ -9,6 +9,7 @@ COPY config/aws-root-ca1.cer /config
 RUN mkdir irbt
 COPY irbt /irbt
 COPY requirements.txt /
+COPY cli.py /
 
 # install dependencies
 RUN pip install -r requirements.txt
