@@ -12,6 +12,32 @@ from .logger import logging
 logger = logging.getLogger(__name__)
 
 
+def _output_status(payload, response_status, token):
+    if not payload:
+        return
+    payload_dict = json.loads(payload)
+    if not payload_dict:
+        return
+
+    prefix = payload_dict['state']['reported']
+    infos = {
+        'Battery': '%s%%' % prefix['batPct'],
+        'Name': prefix['name'],
+        'Bin Present': prefix['bin']['present'],
+        'Bin full': prefix['bin']['full'],
+        'Mission phase': prefix['cleanMissionStatus']['cycle'],
+        'Initiator': prefix['cleanMissionStatus']['initiator'],
+        'Last Command': prefix['lastCommand']['command'],
+        # 'Last initiator': prefix['lastCommand']['initiator'],
+        'Time Zone': prefix['timezone'],
+        'Cloud env': prefix['cloudEnv'],
+        'Cloud connected': prefix['connected'],
+        'Country': prefix['country'],
+        'Wlan mac address': prefix['hwPartsRev']['wlan0HwAddr']
+    }
+    logger.info(json.dumps(infos))
+
+
 class Robot:
     """
     Class Robot.
@@ -156,33 +182,6 @@ class Robot:
                                    user_pmapv_id,
                                    'umf')
 
-    def _output_status(self, payload, response_status, token):
-        if not payload:
-            return
-        payload_dict = json.loads(payload)
-        if not payload_dict:
-            return
-        if self.output_raw:
-            print(json.dumps(payload_dict))
-        else:
-            prefix = payload_dict['state']['reported']
-            infos = {
-                'Battery': '%s%%' % prefix['batPct'],
-                'Name': prefix['name'],
-                'Bin Present': prefix['bin']['present'],
-                'Bin full': prefix['bin']['full'],
-                'Mission phase': prefix['cleanMissionStatus']['cycle'],
-                'Initiator': prefix['cleanMissionStatus']['initiator'],
-                'Last Command': prefix['lastCommand']['command'],
-                # 'Last initiator': prefix['lastCommand']['initiator'],
-                'Time Zone': prefix['timezone'],
-                'Cloud env': prefix['cloudEnv'],
-                'Cloud connected': prefix['connected'],
-                'Country': prefix['country'],
-                'Wlan mac address': prefix['hwPartsRev']['wlan0HwAddr']
-            }
-            logger.info(json.dumps(infos))
-
     def _make_payload(self, room_ids, cmd):
         payload = {
             'state': 'desired',
@@ -202,19 +201,20 @@ class Robot:
             })
         return payload
 
-    def _cmd(self, cmd, room_ids=None):
+    def _cmd(self, cmd, room_ids=None, print_output=_output_status):
         topic = '%s/things/%s/cmd' % (self._cloud.mqtt_topic, self._id)
         qos = 1
+
         payload = self._make_payload(room_ids, cmd)
         with mqtt_manager(self._cloud, self) as mqtt:
             if cmd == 'status':
-                mqtt.device.shadowGet(self._output_status, 5)
-                mqtt.device.shadowRegisterDeltaCallback(self._output_status)
+                mqtt.device.shadowGet(print_output, 5)
+                mqtt.device.shadowRegisterDeltaCallback(print_output)
                 exit(0)
             logger.info(
                 'executing command %s on robot %s', cmd, self._id)
             if mqtt.connection.publish(topic, json.dumps(payload), qos):
-                mqtt.device.shadowGet(self._output_status, 5)
-                mqtt.device.shadowRegisterDeltaCallback(self._output_status)
+                mqtt.device.shadowGet(print_output, 5)
+                mqtt.device.shadowRegisterDeltaCallback(print_output)
             else:
                 raise Exception('MqttPublish%sError' % cmd)
