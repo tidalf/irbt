@@ -58,6 +58,7 @@ class Robot:
         stop: None
         pause: None
         dock: None
+        status: None
 
         def __init__(self, robot):
             """
@@ -208,9 +209,9 @@ class Robot:
         payload = self._make_payload(room_ids, cmd)
         with mqtt_manager(self._cloud, self) as mqtt:
             if cmd == 'status':
-                mqtt.device.shadowGet(print_output, 5)
-                mqtt.device.shadowRegisterDeltaCallback(print_output)
-                exit(0)
+                mqtt.device.shadowGet(self._output_status, 5)
+                mqtt.device.shadowRegisterDeltaCallback(self._output_status)
+                return 0  # exit(0)
             logger.info(
                 'executing command %s on robot %s', cmd, self._id)
             if mqtt.connection.publish(topic, json.dumps(payload), qos):
