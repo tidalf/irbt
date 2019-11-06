@@ -93,6 +93,9 @@ class Cloud:
         self.access_key_id = None
         self.secret_key = None
         self.session_token = None
+        self.shadow_client = None
+        self.device = None
+
         if username and password:
             self.login(username=username, password=password)
         self.api = Cloud.Api(self)
@@ -236,40 +239,3 @@ class Cloud:
 
 
 MqttConnection = namedtuple('MqttConnection', 'connection device')
-
-
-@contextmanager
-def mqtt_manager(cloud, robot):
-    """
-    Instantiate mqtt clients and delete them when exiting.
-
-    We use AWSIoTMQTTShadowClient to create our MQTT connection.
-    This manager will close the connection on exit
-    """
-    shadow_client = AWSIoTMQTTShadowClient(
-        cloud.app_id,
-        useWebsocket=True)
-    shadow_client.configureEndpoint(cloud.mqtt_endpoint, 443)
-    shadow_client.configureCredentials('config/aws-root-ca1.cer')
-    shadow_client.configureIAMCredentials(
-        cloud.access_key_id,
-        cloud.secret_key,
-        cloud.session_token)
-    shadow_client.configureConnectDisconnectTimeout(10)  # 10 sec
-    shadow_client.configureMQTTOperationTimeout(5)  # 5 sec
-
-    try:
-        if not shadow_client.connect():
-            raise Exception('AWSIoTMQTTShadowClientCouldNotConnect')
-    except ValueError as e:
-        logger.error("shadow_client.connect returned '%s'"
-                     ', credentials are not authorized.', str(e))
-        exit(1)
-    device = shadow_client.createShadowHandlerWithName(robot._id, True)
-    connection = shadow_client.getMQTTConnection()
-    logger.info('[+] mqtt connected')
-    try:
-        yield MqttConnection(device=device, connection=connection)
-    finally:
-        logger.info('[+] disconnect mqtt')
-        connection.disconnect()
