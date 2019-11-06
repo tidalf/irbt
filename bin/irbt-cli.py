@@ -12,6 +12,14 @@ import sys
 from irbt import (Cloud, Robot, enable_mqtt_logging, get_argument_parser,
                   logging)
 
+def print_output(payload, response_status, token):
+    if not payload:
+        return
+    payload_dict = json.loads(payload)
+    if not payload_dict:
+        return
+    print(json.dumps(payload_dict['state']['reported']))
+
 logger = logging.getLogger('irbt-cli')
 
 parser = get_argument_parser()
@@ -99,5 +107,6 @@ elif args.map:
     print(json.dumps(robot.vector_map()))
 # commands
 elif args.cmd:
-    getattr(robot.command, args.cmd)(room_ids=args.room_ids)
+    getattr(robot.command, args.cmd)(room_ids=args.room_ids,
+                                     print_output=print_output)
 sys.exit(0)
