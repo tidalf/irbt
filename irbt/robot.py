@@ -32,6 +32,7 @@ class Robot:
         stop: None
         pause: None
         dock: None
+        status: None
 
         def __init__(self, robot):
             """
@@ -210,7 +211,7 @@ class Robot:
             if cmd == 'status':
                 mqtt.device.shadowGet(self._output_status, 5)
                 mqtt.device.shadowRegisterDeltaCallback(self._output_status)
-                exit(0)
+                return 0  # exit(0)
             logger.info(
                 'executing command %s on robot %s', cmd, self._id)
             if mqtt.connection.publish(topic, json.dumps(payload), qos):
