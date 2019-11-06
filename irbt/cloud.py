@@ -239,4 +239,3 @@ class Cloud:
 
 
 MqttConnection = namedtuple('MqttConnection', 'connection device')
-

@@ -114,8 +114,8 @@ elif args.map:
     print(json.dumps(robot.vector_map()))
 # commands
 elif args.cmd:
+    robot.connect()
     getattr(robot.command, args.cmd)(room_ids=args.room_ids,
                                      print_output=print_output)
-
-robot.disconnect()
+    robot.disconnect()
 sys.exit(0)

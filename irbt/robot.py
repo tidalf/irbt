@@ -100,8 +100,6 @@ class Robot:
         self.output_raw = output_raw
         self.name = None
         self.shadow_client = None
-        # auto connect
-        self.connect()
 
     def connect(self):
         """
