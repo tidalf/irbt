@@ -6,7 +6,8 @@ It allows interactions with the robot cloud api
 import functools
 import json
 
-from .cloud import mqtt_manager
+from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
+
 from .logger import logging
 
 logger = logging.getLogger(__name__)
@@ -98,6 +99,45 @@ class Robot:
         self.device = None
         self.output_raw = output_raw
         self.name = None
+        self.shadow_client = None
+        # auto connect
+        self.connect()
+
+    def connect(self):
+        """
+        Instantiate mqtt clients and delete them when exiting.
+
+        We use AWSIoTMQTTShadowClient to create our MQTT connection.
+        This manager will close the connection on exit
+        """
+        self.shadow_client = AWSIoTMQTTShadowClient(
+            self._cloud.app_id,
+            useWebsocket=True)
+        self.shadow_client.configureEndpoint(self._cloud.mqtt_endpoint, 443)
+        self.shadow_client.configureCredentials('config/aws-root-ca1.cer')
+        self.shadow_client.configureIAMCredentials(
+            self._cloud.access_key_id,
+            self._cloud.secret_key,
+            self._cloud.session_token)
+        self.shadow_client.configureConnectDisconnectTimeout(10)  # 10 sec
+        self.shadow_client.configureMQTTOperationTimeout(5)  # 5 sec
+
+        try:
+            if not self.shadow_client.connect():
+                raise Exception('AWSIoTMQTTShadowClientCouldNotConnect')
+        except ValueError as e:
+            logger.error("shadow_client.connect returned '%s'"
+                         ', credentials are not authorized.', str(e))
+            exit(1)
+        self.device = self.shadow_client.createShadowHandlerWithName(self._id,
+                                                                     True)
+        self.connection = self.shadow_client.getMQTTConnection()
+        logger.info('[+] mqtt connected')
+
+    def disconnect(self):
+        """Disconnect the mqtt stuff."""
+        logger.info('[+] mqtt disconnected')
+        self.connection.disconnect()
 
     # return maps and set active one
     def maps(self):
@@ -207,15 +247,15 @@ class Robot:
         qos = 1
 
         payload = self._make_payload(room_ids, cmd)
-        with mqtt_manager(self._cloud, self) as mqtt:
-            if cmd == 'status':
-                mqtt.device.shadowGet(self._output_status, 5)
-                mqtt.device.shadowRegisterDeltaCallback(self._output_status)
-                return 0  # exit(0)
-            logger.info(
-                'executing command %s on robot %s', cmd, self._id)
-            if mqtt.connection.publish(topic, json.dumps(payload), qos):
-                mqtt.device.shadowGet(print_output, 5)
-                mqtt.device.shadowRegisterDeltaCallback(print_output)
-            else:
-                raise Exception('MqttPublish%sError' % cmd)
+
+        if cmd == 'status':
+            self.device.shadowGet(_output_status, 5)
+            self.device.shadowRegisterDeltaCallback(_output_status)
+            return 0  # exit(0)
+        logger.info(
+            'executing command %s on robot %s', cmd, self._id)
+        if self.connection.publish(topic, json.dumps(payload), qos):
+            self.device.shadowGet(print_output, 5)
+            self.device.shadowRegisterDeltaCallback(print_output)
+        else:
+            raise Exception('MqttPublish%sError' % cmd)
