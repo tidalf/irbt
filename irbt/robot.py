@@ -247,8 +247,8 @@ class Robot:
         payload = self._make_payload(room_ids, cmd)
 
         if cmd == 'status':
-            self.device.shadowGet(_output_status, 5)
-            self.device.shadowRegisterDeltaCallback(_output_status)
+            self.device.shadowGet(print_output, 5)
+            self.device.shadowRegisterDeltaCallback(print_output)
             return 0  # exit(0)
         logger.info(
             'executing command %s on robot %s', cmd, self._id)
