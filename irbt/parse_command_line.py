@@ -24,7 +24,7 @@ args_dict = [
         'nargs': '?',
         'const': 1,
         'dest': 'cmd',
-        'help': 'cmd for the robot (start, stop, dock, pause)',
+        'help': 'cmd for the robot (start, stop, dock, pause, find)',
         'default': False
     },
     {
