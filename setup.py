@@ -15,8 +15,8 @@ setuptools.setup(
         "version_format": "{tag}.dev{sha}",
         "starting_version": "0.3.0"
     },
-    author='Cyril Leclerc',
-    author_email='cyril.leclerc@gmail.com',
+    author='D@korp',
+    author_email='tidalf@ematome.com',
     description='A Library to interact with irbt appliances',
     long_description=long_description,
     long_description_content_type='text/markdown',
