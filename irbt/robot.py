@@ -5,7 +5,7 @@ It allows interactions with the robot cloud api
 """
 import functools
 import json
-import random
+import os
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
@@ -112,7 +112,7 @@ class Robot:
         This manager will close the connection on exit
         """
         self.shadow_client = AWSIoTMQTTShadowClient(
-            self._cloud.app_id + str(random.randint(1, 100000)),
+            self._cloud.app_id + str(os.urandom(6)),
             useWebsocket=True)
         self.shadow_client.configureEndpoint(self._cloud.mqtt_endpoint, 443)
         self.shadow_client.configureCredentials('config/aws-root-ca1.cer')
