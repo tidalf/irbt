@@ -271,7 +271,7 @@ class Robot:
         # https://github.com/NickWaterton/Roomba980-Python/blob/master/roomba/roomba.py
         states = {'charge': 'Charging',
                   'new': 'New Mission',
-                  'run': 'Running"',
+                  'run': 'Running',
                   'resume': 'Running',
                   'hmMidMsn': 'Recharging',
                   'recharge': 'Recharging',
@@ -281,7 +281,7 @@ class Robot:
                   'dockend': 'Docking - End Mission',
                   'cancelled': 'Cancelled',
                   'stop': 'Stopped',
-                  'pause': 'Paused"',
+                  'pause': 'Paused',
                   'hmPostMsn': 'End Mission',
                   '': None}
         return states[state]
