@@ -21,7 +21,7 @@ It has only been tested with a roomba i7.
 - history
 - maps api (as json)
 - missions api
-- mqtt start, pause, stop, dock
+- mqtt start, pause, stop, dock, find
 - cli
 
 ```shell
