@@ -4,11 +4,7 @@ Cloud class for authentication and connexion setup.
 It allow interactions with the irbt cloud api
 """
 import json
-from collections import namedtuple
-from contextlib import contextmanager
 from urllib.parse import urlparse
-
-from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
 from aws_requests_auth.aws_auth import AWSRequestsAuth
 
@@ -236,6 +232,3 @@ class Cloud:
         The first json key is the robot id
         """
         return self.api.get('user', 'associations', 'robots')
-
-
-MqttConnection = namedtuple('MqttConnection', 'connection device')
