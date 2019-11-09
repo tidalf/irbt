@@ -119,11 +119,14 @@ class Robot:
             self._cloud.access_key_id,
             self._cloud.secret_key,
             self._cloud.session_token)
-        self.shadow_client.configureConnectDisconnectTimeout(10)  # 10 sec
-        self.shadow_client.configureMQTTOperationTimeout(5)  # 5 sec
+        self.shadow_client.configureAutoReconnectBackoffTime(1, 128, 20)
+        self.shadow_client.configureConnectDisconnectTimeout(10)
+        self.shadow_client.configureMQTTOperationTimeout(5)
+        # Set keepAlive interval to be 1 second and connect
+        # Raise exception if there is an error in connecting to AWS IoT
 
         try:
-            if not self.shadow_client.connect():
+            if not self.shadow_client.connect(5):
                 raise Exception('AWSIoTMQTTShadowClientCouldNotConnect')
         except ValueError as e:
             logger.error("shadow_client.connect returned '%s'"
