@@ -62,6 +62,7 @@ class Robot:
         dock: None
         status: None
         find: None
+        resume: None
 
         def __init__(self, robot):
             """
@@ -75,6 +76,7 @@ class Robot:
             self.dock = functools.partial(robot._cmd, 'dock')
             self.status = functools.partial(robot._cmd, 'status')
             self.find = functools.partial(robot._cmd, 'find')
+            self.resume = functools.partial(robot._cmd, 'resume')
 
     def __init__(self, cloud=None, rid=None, output_raw=None):
         """
