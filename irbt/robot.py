@@ -263,3 +263,23 @@ class Robot:
             self.device.shadowRegisterDeltaCallback(print_output)
         else:
             raise Exception('MqttPublish%sError' % cmd)
+
+    def current_state(self, state):
+        """Return state as expected by the hass module."""
+        # https://github.com/NickWaterton/Roomba980-Python/blob/master/roomba/roomba.py
+        states = {'charge': 'Charging',
+                  'new': 'New Mission',
+                  'run': 'Running"',
+                  'resume': 'Running',
+                  'hmMidMsn': 'Recharging',
+                  'recharge': 'Recharging',
+                  'stuck': 'Stuck',
+                  'hmUsrDock': 'User Docking',
+                  'dock': 'Docking',
+                  'dockend': 'Docking - End Mission',
+                  'cancelled': 'Cancelled',
+                  'stop': 'Stopped',
+                  'pause': 'Paused"',
+                  'hmPostMsn': 'End Mission',
+                  '': None}
+        return states[state]

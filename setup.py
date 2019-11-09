@@ -12,8 +12,8 @@ with open('README.md', 'r') as fh:
 setuptools.setup(
     name='irbt',
     version_config={
-        "version_format": "{tag}.dev{sha}",
-        "starting_version": "0.3.0"
+        'version_format': '{tag}.dev{sha}',
+        'starting_version': '0.3.0'
     },
     author='Cyril Leclerc',
     author_email='cyril.leclerc@gmail.com',
