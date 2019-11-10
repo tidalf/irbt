@@ -86,6 +86,9 @@ class Robot:
         set the current map id.
         """
         self.command = Robot.Commands(self)
+        # alias for hass
+        self.send_command = self.command
+
         # if no cloud connexion is passed,create one using provided credentials
         if not cloud:
             raise Exception('You need to provide a cloud connection')
