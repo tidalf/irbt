@@ -262,7 +262,8 @@ class Robot:
             self.device.shadowRegisterDeltaCallback(print_output)
             return 0  # exit(0)
         logger.info(
-            'executing command %s on robot %s', cmd, self._id)
+            'executing command %s on robot %s, payload : %s',
+            cmd, self._id, payload)
         if self.connection.publish(topic, json.dumps(payload), qos):
             self.device.shadowGet(print_output, 5)
             self.device.shadowRegisterDeltaCallback(print_output)
