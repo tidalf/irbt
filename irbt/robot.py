@@ -285,3 +285,12 @@ class Robot:
                   'hmPostMsn': 'End Mission',
                   '': None}
         return states[state]
+
+    def set_preference(self, **kwargs):
+        """Set preferences in robot (not implemented)."""
+        logger.info('Set preference not implemented')
+        logger.info('-- Received keys --')
+        if kwargs is not None:
+            for key, value in kwargs.iteritems():
+                logger.info('%s == %s' % (key, value))
+        logger.info('-- End of Received keys --')
