@@ -291,7 +291,7 @@ class Robot:
 
     def set_preference(self, **kwargs):
         """Set preferences in robot (not implemented)."""
-        logger.info('Set preference not implemented')
+        logger.info('Set preference not implemented for %s', self._id)
         logger.info('-- Received keys --')
         if kwargs is not None:
             for key, value in kwargs.iteritems():
