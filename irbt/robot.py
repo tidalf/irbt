@@ -297,3 +297,9 @@ class Robot:
             for key, value in kwargs.iteritems():
                 logger.info('%s == %s' % (key, value))
         logger.info('-- End of Received keys --')
+
+    def get_room_id(self, name):
+        """Get room from id."""
+        for room in self.rooms():
+            if name == room['name']:
+                return room['id']
