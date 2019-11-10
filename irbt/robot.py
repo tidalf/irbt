@@ -86,6 +86,9 @@ class Robot:
         set the current map id.
         """
         self.command = Robot.Commands(self)
+        # alias for hass
+        self.send_command = self.command
+
         # if no cloud connexion is passed,create one using provided credentials
         if not cloud:
             raise Exception('You need to provide a cloud connection')
@@ -285,3 +288,12 @@ class Robot:
                   'hmPostMsn': 'End Mission',
                   '': None}
         return states[state]
+
+    def set_preference(self, **kwargs):
+        """Set preferences in robot (not implemented)."""
+        logger.info('Set preference not implemented for %s', self._id)
+        logger.info('-- Received keys --')
+        if kwargs is not None:
+            for key, value in kwargs.iteritems():
+                logger.info('%s == %s' % (key, value))
+        logger.info('-- End of Received keys --')
