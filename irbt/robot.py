@@ -87,7 +87,7 @@ class Robot:
         """
         self.command = Robot.Commands(self)
         # alias for hass
-        self.send_command = self.command
+        self.send_command = self._cmd
 
         # if no cloud connexion is passed,create one using provided credentials
         if not cloud:
