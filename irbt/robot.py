@@ -240,7 +240,10 @@ class Robot:
             'ordered': 0,
         }
         if cmd == 'start' and room_ids:
-            logger.info('starting cleaning of %s', room_ids)
+            logger.info('start cleaning of :')
+            for room_id in room_ids.split(','):
+                logger.info('  - %s (%s)', self.get_room_name(room_id),
+                            room_id)
             regions = [{'region_id': room_id}
                        for room_id in room_ids.split(',')] \
                 if ',' in room_ids else [{'region_id': room_ids}]
@@ -300,7 +303,13 @@ class Robot:
         logger.info('-- End of Received keys --')
 
     def get_room_id(self, name):
-        """Get room from id."""
+        """Get room id from name."""
         for room in self.rooms():
             if name == room['name']:
                 return room['id']
+
+    def get_room_name(self, room_id):
+        """Get room name from id."""
+        for room in self.rooms():
+            if room_id == room['id']:
+                return room['name']
