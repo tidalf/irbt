@@ -59,8 +59,8 @@ class Cloud:
                                  'requested endpoint: %s',
                                  '/'.join(parts))
                     logger.error('Possible token expiration, trying renewal:')
-                    if self.cloud.login(username=self.username,
-                                        password=self.password):
+                    if self.cloud.login(username=self.cloud.username,
+                                        password=self.cloud.password):
                         logger.error('renewal successfull')
                     else:
                         logger.error('something wrong, cannot login.')
