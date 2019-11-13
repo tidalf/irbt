@@ -221,6 +221,7 @@ class Cloud:
             aws_host=self._aws_host,
             aws_region=self._aws_region,
             aws_service='execute-api')
+        return True
 
     # Assoc
     def assoc(self, password, robot_id):
