@@ -36,6 +36,7 @@ class Cloud:
         def __init__(self, cloud):
             """Init our cloud."""
             self.cloud = cloud
+            self.retried = False
 
         def get(self, *a, params=None, as_json=True):
             """
@@ -59,15 +60,20 @@ class Cloud:
                                  'requested endpoint: %s',
                                  '/'.join(parts))
                     logger.error('Possible token expiration, trying renewal:')
-                    if self.cloud.login(username=self.username,
-                                        password=self.password):
+                    if self.cloud.login(username=self.cloud.username,
+                                        password=self.cloud.password):
                         logger.error('renewal successfull')
+                        # retry request
+                        self.retried = True
+                        self.get(self, *a, params, as_json)
                     else:
                         logger.error('something wrong, cannot login.')
                     # return self.get(a, params, as_json)
                 else:
                     raise Exception('CloudAPIGetError<{}>'.format(
                         response.status_code))
+            else:
+                self.retried = False
             if as_json:
 
                 return response.json()
