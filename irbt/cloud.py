@@ -58,7 +58,12 @@ class Cloud:
                                  'credentials are unauthorized for the '
                                  'requested endpoint: %s',
                                  '/'.join(parts))
-                    exit(1)
+                    logger.error('Possible token expiration, trying renewal:')
+                    if self.login(username=self.username,
+                                  password=self.password):
+                        logger.error('renewal successfull')
+                    else:
+                        logger.error('something wrong, cannot login.')
                 else:
                     raise Exception('CloudAPIGetError<{}>'.format(
                         response.status_code))
@@ -91,8 +96,14 @@ class Cloud:
         self.session_token = None
         self.shadow_client = None
         self.device = None
+        self.username = None
+        self.password = None
 
         if username and password:
+            # save them for reauth
+            self.username = username
+            self.password = password
+            # then login
             self.login(username=username, password=password)
         self.api = Cloud.Api(self)
     # discover the current api and mqtt params
@@ -114,10 +125,10 @@ class Cloud:
             if api_key not in self._disc_api.keys():
                 logger.error('discover url not working, %s key is not there',
                              api_key)
-                exit(1)
+                return -1
         if 'api_key' not in self._disc_api['gigya'].keys():
             logger.error('discover url is not working, api key is not there')
-            exit(1)
+            return -1
 
         self._api_key = self._disc_api['gigya']['api_key']  # gigya api key
 
@@ -200,7 +211,7 @@ class Cloud:
                 gigya_login['UID'])
         except KeyError:
             logger.error('Authentication failed, wrong login/password')
-            exit(1)
+            return -1
         # use AWSRequestsAuth module to set the aws authentication headers
         # (Signature Version 4 Signing Process)
         self.auth = AWSRequestsAuth(
@@ -210,6 +221,7 @@ class Cloud:
             aws_host=self._aws_host,
             aws_region=self._aws_region,
             aws_service='execute-api')
+        return True
 
     # Assoc
     def assoc(self, password, robot_id):

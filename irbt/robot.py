@@ -137,7 +137,7 @@ class Robot:
         except ValueError as e:
             logger.error("shadow_client.connect returned '%s'"
                          ', credentials are not authorized.', str(e))
-            exit(1)
+            return -1
         self.device = self.shadow_client.createShadowHandlerWithName(self._id,
                                                                      True)
         self.connection = self.shadow_client.getMQTTConnection()
