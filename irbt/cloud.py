@@ -48,7 +48,7 @@ class Cloud:
                 self.cloud._api_version
             ]
             parts.extend(a)
-            # pprint.pprint('/'.join(parts))
+
             response = requests.get('/'.join(parts),
                                     params=params,
                                     auth=self.cloud.auth)
@@ -59,16 +59,17 @@ class Cloud:
                                  'requested endpoint: %s',
                                  '/'.join(parts))
                     logger.error('Possible token expiration, trying renewal:')
-                    if self.login(username=self.username,
-                                  password=self.password):
+                    if self.cloud.login(username=self.username,
+                                        password=self.password):
                         logger.error('renewal successfull')
                     else:
                         logger.error('something wrong, cannot login.')
+                    # return self.get(a, params, as_json)
                 else:
                     raise Exception('CloudAPIGetError<{}>'.format(
                         response.status_code))
             if as_json:
-                # pprint.pprint(response.json())
+
                 return response.json()
             return response
 
@@ -86,7 +87,7 @@ class Cloud:
         self._aws_host = None
         self._aws_region = None
         self._http_base = None
-        self.app_id = 'ANDROID-5B4E9B96-C1A8-48BE-ACD7-B41C9F3DC1DE'
+        self.app_id = 'ANDROID-5B4E9B96-C1A8-48BE-ACD7-B41C9F3DC1DE'
         self.auth = None
         self.mqtt_endpoint = None
         self.mqtt_topic = None
