@@ -62,6 +62,12 @@ class Cloud:
                     if self.cloud.login(username=self.cloud.username,
                                         password=self.cloud.password):
                         logger.error('renewal successfull')
+                        response = requests.get('/'.join(parts),
+                                                params=params,
+                                                auth=self.cloud.auth)
+                        if response.status_code != 200:
+                            raise Exception('CloudAPIGetError<{}>'.format(
+                                response.status_code))
                     else:
                         logger.error('something wrong, cannot login.')
                     # return self.get(a, params, as_json)
