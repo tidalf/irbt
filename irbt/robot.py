@@ -156,14 +156,16 @@ class Robot:
         Used to return a map lists and to set the active one in the instance
         only retrieve first map for now (fixme)
         """
+        maps=[]
         params = {
             'visible': 'true',
             'activeDetails': '1'
         }
         maps = self._cloud.api.get(self._id, 'pmaps', params=params)
-        path = ['active_pmapv_details', 'active_pmapv', 'pmap_id']
-        self._current_map_id = maps[0][path[0]][path[1]][path[2]]
-        self._current_user_pmapv_id = maps[0]['user_pmapv_id']
+        if maps:
+            path = ['active_pmapv_details', 'active_pmapv', 'pmap_id']
+            self._current_map_id = maps[0][path[0]][path[1]][path[2]]
+            self._current_user_pmapv_id = maps[0]['user_pmapv_id']
         return maps
 
     def rooms(self):
@@ -172,7 +174,10 @@ class Robot:
 
         Retrieve a correctly formated room list for humans
         """
-        return (self.maps()[0]['active_pmapv_details']['regions'])
+        if self.maps():
+            return (self.maps()[0]['active_pmapv_details']['regions'])
+        else:
+            return []
 
     def missions(self):
         """
