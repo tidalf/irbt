@@ -109,6 +109,12 @@ class Robot:
         self.name = None
         self.shadow_client = None
 
+    def _set_credentials(self):
+        self.shadow_client.configureIAMCredentials(
+            self._cloud.access_key_id,
+            self._cloud.secret_key,
+            self._cloud.session_token)
+
     def connect(self):
         """
         Instantiate mqtt clients and delete them when exiting.
@@ -121,13 +127,11 @@ class Robot:
             useWebsocket=True)
         self.shadow_client.configureEndpoint(self._cloud.mqtt_endpoint, 443)
         self.shadow_client.configureCredentials('config/aws-root-ca1.cer')
-        self.shadow_client.configureIAMCredentials(
-            self._cloud.access_key_id,
-            self._cloud.secret_key,
-            self._cloud.session_token)
+        self._set_credentials()
         self.shadow_client.configureAutoReconnectBackoffTime(1, 128, 20)
         self.shadow_client.configureConnectDisconnectTimeout(10)
         self.shadow_client.configureMQTTOperationTimeout(5)
+        self.shadow_client.onOffline = self._set_credentials
         # Set keepAlive interval to be 1 second and connect
         # Raise exception if there is an error in connecting to AWS IoT
 
@@ -161,10 +165,13 @@ class Robot:
             'activeDetails': '1'
         }
         maps = self._cloud.api.get(self._id, 'pmaps', params=params)
-        path = ['active_pmapv_details', 'active_pmapv', 'pmap_id']
-        self._current_map_id = maps[0][path[0]][path[1]][path[2]]
-        self._current_user_pmapv_id = maps[0]['user_pmapv_id']
-        return maps
+        if maps:
+            path = ['active_pmapv_details', 'active_pmapv', 'pmap_id']
+            self._current_map_id = maps[0][path[0]][path[1]][path[2]]
+            self._current_user_pmapv_id = maps[0]['user_pmapv_id']
+            return maps
+        else:
+            return ''
 
     def rooms(self):
         """
@@ -265,11 +272,6 @@ class Robot:
                 self.device.shadowGet(print_output, 5)
             except Exception as e:
                 logger.info('shadow get failed, exception: %s', e)
-                logger.info('trying to refresh the connection (and the aws \
-                             credentials)')
-                self.disconnect()
-                self.connect()
-                self.device.shadowGet(print_output, 5)
 
             self.device.shadowRegisterDeltaCallback(print_output)
             return 0  # exit(0)
@@ -282,11 +284,6 @@ class Robot:
                 self.device.shadowGet(print_output, 5)
             except Exception as e:
                 logger.info('shadow get failed, exception: %s', e)
-                logger.info('trying to refresh the connection (and the aws \
-                             credentials)')
-                self.disconnect()
-                self.connect()
-                self.device.shadowGet(print_output, 5)
             self.device.shadowRegisterDeltaCallback(print_output)
         else:
             raise Exception('MqttPublish%sError' % cmd)
