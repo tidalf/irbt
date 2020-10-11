@@ -120,7 +120,7 @@ class Robot:
             self._cloud.app_id + str(os.urandom(6)),
             useWebsocket=True)
         self.shadow_client.configureEndpoint(self._cloud.mqtt_endpoint, 443)
-        self.shadow_client.configureCredentials('config/aws-root-ca1.cer')
+        self.shadow_client.configureCredentials('/usr/local/etc/aws-root-ca1.cer')
         self.shadow_client.configureIAMCredentials(
             self._cloud.access_key_id,
             self._cloud.secret_key,
