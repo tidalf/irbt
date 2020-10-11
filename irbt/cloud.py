@@ -180,6 +180,7 @@ class Cloud:
             'assume_robot_ownership': '0',
             'signature': signature,
             'timestamp': timestamp,
+            'app_id' : self.app_id,
             'uid': uid
         }
         # retrieve the aws credentials
