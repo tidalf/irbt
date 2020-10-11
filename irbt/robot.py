@@ -6,6 +6,7 @@ It allows interactions with the robot cloud api
 import functools
 import json
 import os
+from distutils.sysconfig import get_python_lib
 from os import path
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
@@ -122,9 +123,8 @@ class Robot:
             useWebsocket=True)
         self.shadow_client.configureEndpoint(self._cloud.mqtt_endpoint, 443)
         setuppath='/usr/local/etc/aws-root-ca1.cer'
-        from distutils.sysconfig import get_python_lib; pippath=get_python_lib()
-
-        cerpath=setuppath if path.exists(pippath) else "%s/usr/local/etc/aws-root-ca1.cer" % pippath
+        pippath=get_python_lib()
+        cerpath=setuppath if path.exists(setuppath) else "%s/usr/local/etc/aws-root-ca1.cer" % pippath
         self.shadow_client.configureCredentials(cerpath)
         self.shadow_client.configureIAMCredentials(
             self._cloud.access_key_id,
