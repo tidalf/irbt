@@ -64,6 +64,11 @@ optional arguments:
 pip3 install -r requirements
 ```
 
+## Install using setup.py
+```shell
+python3 setup.py install
+```
+
 ## Run
 
 set your irobot credentials in the following var :
@@ -76,7 +81,7 @@ export IRBT_PASSWORD="yourpassword"
 Then launch the cli (-h for the options)
 
 ```shell
-./cli.py -h
+irbt-cli.py -h
 ```
 
 You can also build the container using:
@@ -88,7 +93,7 @@ docker build . -t irbt_cli
 Then run it with the credentials environment variable sets
 
 ```shell
-docker run -e IRBT_LOGIN -e IRBT_PASSWORD -ti irbt_cli:latest python3 ./cli.py -h
+docker run -e IRBT_LOGIN -e IRBT_PASSWORD -ti irbt_cli:latest python3 ./bin/irbt-cli.py -h
 ```
 
 ### for wireshark debugging
