@@ -8,6 +8,7 @@ import json
 import os
 from distutils.sysconfig import get_python_lib
 from os import path
+import site
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 
@@ -123,7 +124,7 @@ class Robot:
             useWebsocket=True)
         self.shadow_client.configureEndpoint(self._cloud.mqtt_endpoint, 443)
         setuppath='/usr/local/etc/aws-root-ca1.cer'
-        pippath=get_python_lib()
+        pippath=site.USER_SITE if path.exists("%s/usr/local/etc/aws-root-ca1.cer" % site.USER_SITE) else get_python_lib()
         cerpath=setuppath if path.exists(setuppath) else "%s/usr/local/etc/aws-root-ca1.cer" % pippath
         self.shadow_client.configureCredentials(cerpath)
         self.shadow_client.configureIAMCredentials(
