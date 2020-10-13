@@ -23,6 +23,10 @@ setuptools.setup(
     url='https://github.com/tidalf/irbt',
     packages=setuptools.find_packages(),
     scripts=['bin/irbt-cli.py'],
+    install_requires=[
+          'aws-requests-auth',
+          'AWSIoTPythonSDK',
+    ],
     data_files = [('/usr/local/etc',['config/aws-root-ca1.cer'])],
     classifiers=[
         'Programming Language :: Python :: 3',
