@@ -13,6 +13,16 @@ Supported devices:
 
 It has only been tested with a roomba i7.
 
+## Quickstart
+
+```
+$ pip3 install irbt
+$ export IRBT_LOGIN="your@email.com"
+$ export IRBT_PASSWORD="password"
+$ irbt-cli.py -l # list rooms 
+$ irbt-cli.py -c start -r 'roomid' # start cleaning the room corresponding to the id
+```
+
 ## Features
 
 - login using gigya/irbt api
