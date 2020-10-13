@@ -1,18 +1,18 @@
-import commonjs from 'rollup-plugin-commonjs';
-import nodeResolve from 'rollup-plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import commonjs from "rollup-plugin-commonjs";
+import nodeResolve from "rollup-plugin-node-resolve";
+import { terser } from "rollup-plugin-terser";
 
 const pkg = {
-    name: 'robmap'
+    name: "robmap"
 };
 
 const outputDefault = {
-    exports: 'named',
+    exports: "named",
     globals: {}
 };
 
 const output = [
-    { ...outputDefault, file: `html/js/${pkg.name}.js`, format: 'es', name: pkg.name },
+    { ...outputDefault, file: "html/js/${pkg.name}.js", format: "es", name: pkg.name },
 ];
 
 const plugins = [
@@ -22,8 +22,8 @@ const plugins = [
 ];
 
 const configuration = [{
-    name: 'robMap',
-    input: './build/app.js',
+    name: "robMap",
+    input: "./build/app.js",
     external: [],
     output,
     plugins,

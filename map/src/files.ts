@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import { promisify } from 'util';
+import * as fs from "fs";
+import { promisify } from "util";
 
 const readFile = promisify(fs.readFile);
 

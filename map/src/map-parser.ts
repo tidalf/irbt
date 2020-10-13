@@ -1,5 +1,5 @@
 export interface RobotMapFormat {
-    format_version: '3.5.1';
+    format_version: "3.5.1";
     debug_file_header: {
         robot_name: string;
         blid: any[];
@@ -7,24 +7,24 @@ export interface RobotMapFormat {
     maps: RobotMap[];
 }
 
-export type RobotGeometryType = 'multipoint2d'
-    | 'pose2dconcise_event'
-    | 'multipolygon2d'
-    | 'polygon'
-    | 'multilinestring'
-    | 'linestring';
+export type RobotGeometryType = "multipoint2d"
+    | "pose2dconcise_event"
+    | "multipolygon2d"
+    | "polygon"
+    | "multilinestring"
+    | "linestring";
 
 export interface RobotGeometry {
     type: RobotGeometryType;
 }
 
 export interface RobotGeometryPolygon extends RobotGeometry {
-    type: 'polygon';
+    type: "polygon";
     ids: string[][];
 }
 
 export interface RobotGeometryLinestring extends RobotGeometry {
-    type: 'linestring';
+    type: "linestring";
     ids: string[];
 }
 
@@ -34,7 +34,7 @@ export type RobotGeometryUnion = RobotGeometryPolygon
 export type CoordinateMultipoint2d = [number, number];
 
 export interface RobotMapLayerCoverage {
-    layer_type: 'coverage';
+    layer_type: "coverage";
     geometry: {
         point_area: [
             number,
@@ -47,7 +47,7 @@ export interface RobotMapLayerCoverage {
 }
 
 export interface RobotMapLayerEscapeEvents {
-    layer_type: 'escape_events';
+    layer_type: "escape_events";
     geometry: {
         type: RobotGeometryType;
         list: any;
@@ -55,7 +55,7 @@ export interface RobotMapLayerEscapeEvents {
 }
 
 export interface RobotMapLayerDirt {
-    layer_type: 'dirt';
+    layer_type: "dirt";
     geometry: {
         point_area: [
             number,
@@ -68,7 +68,7 @@ export interface RobotMapLayerDirt {
 }
 
 export interface RobotMapLayerFrontier {
-    layer_type: 'frontiers';
+    layer_type: "frontiers";
     geometry: {
         type: RobotGeometryType;
         ids: string[][];
@@ -79,7 +79,7 @@ export interface RobotMapLayerFrontier {
 export type CoordinateCoveragePoly = any;
 
 export interface RobotMapLayerCoveragePoly {
-    layer_type: 'coverage_poly';
+    layer_type: "coverage_poly";
     geometry: {
         type: RobotGeometryType;
         coordinates: CoordinateCoveragePoly[];
@@ -88,7 +88,7 @@ export interface RobotMapLayerCoveragePoly {
 }
 
 export interface RobotMapLayerClutter {
-    layer_type: 'clutter';
+    layer_type: "clutter";
     geometry: {
         type: RobotGeometryType;
         coordinates: CoordinateCoveragePoly[];
@@ -112,7 +112,7 @@ export interface RobotPoint2d {
 export interface RobotDevice {
 }
 
-export type RobotRegionType = 'living_room' | 'kitchen' | 'foyer' | 'bedroom' | 'bathroom' | 'custom';
+export type RobotRegionType = "living_room" | "kitchen" | "foyer" | "bedroom" | "bathroom" | "custom";
 
 export interface RobotRegion {
     region_type: RobotRegionType;
@@ -149,7 +149,7 @@ export interface RobotTypePose {
 
 }
 
-export type RobotBorderFreeType = 'free';
+export type RobotBorderFreeType = "free";
 export interface RobotBorder {
     geometry: RobotGeometryPolygon;
     id: string;
