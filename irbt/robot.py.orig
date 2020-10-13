@@ -255,9 +255,9 @@ class Robot:
             for room_id in room_ids.split(','):
                 logger.info('  - %s (%s)', self.get_room_name(room_id),
                             room_id)
-            regions = [{'type':'rid', 'region_id': room_id}
+            regions = [{'region_id': room_id}
                        for room_id in room_ids.split(',')] \
-                if ',' in room_ids else [{'region_id': room_ids, 'type': 'rid'}]
+                if ',' in room_ids else [{'region_id': room_ids}]
             payload.update({
                 'pmap_id': self._current_map_id,
                 'regions': regions,
