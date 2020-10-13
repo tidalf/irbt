@@ -1,0 +1,21 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "interface-name": false,
+        "no-empty-interface": false
+    },
+    "rulesDirectory": [],
+    "linterOptions": {
+        "exclude": [
+            "./src/data.ts"
+        ]
+    }
+}
