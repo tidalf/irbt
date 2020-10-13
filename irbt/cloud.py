@@ -93,7 +93,7 @@ class Cloud:
         self._aws_host = None
         self._aws_region = None
         self._http_base = None
-        self.app_id = 'ANDROID-5B4E9B96-C1A8-48BE-ACD7-B41C9F3DC1DE'
+        self.app_id = 'IOS-F700B76F-80EE-4AB9-9B02-34B210F3B148'
         self.auth = None
         self.mqtt_endpoint = None
         self.mqtt_topic = None
