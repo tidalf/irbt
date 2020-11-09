@@ -1,4 +1,4 @@
-# Library for irbt cloud api
+# Library for irobot roomba cloud api
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/f0307333bdf7a58f11bb/maintainability)](https://codeclimate.com/github/tidalf/irbt/maintainability)
 [![Actions Status](https://github.com/tidalf/pyirbt/workflows/Python%20application/badge.svg)](https://github.com/tidalf/irbt/actions)
@@ -6,7 +6,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/071f2083c0634aef9fc33ea00ffa1ddd)](https://www.codacy.com/manual/dkorp/irbt?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tidalf/irbt&amp;utm_campaign=Badge_Grade)
 [![PyPI version](https://badge.fury.io/py/irbt.svg)](https://badge.fury.io/py/irbt)
 
-This library implements some parts of the irbt cloud api (to control the different
+This library implements some parts of the irobot cloud api (to control the different
 robots of the company).
 
 Supported devices:
