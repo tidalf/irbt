@@ -112,6 +112,17 @@ elif args.timeline:
 # get active map
 elif args.map:
     print(json.dumps(robot.vector_map()))
+# render map as image
+elif args.map_image:
+    try:
+        from irbt.map_renderer import render_map
+    except ImportError:
+        logger.error('Pillow is required for map rendering. '
+                     'Install it with: pip install Pillow')
+        sys.exit(1)
+    map_data = robot.vector_map()
+    render_map(map_data, output_path=args.map_image)
+    print('Map saved to {}'.format(args.map_image))
 # commands
 elif args.cmd:
     robot.connect()

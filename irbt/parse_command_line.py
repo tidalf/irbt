@@ -150,6 +150,17 @@ args_dict = [
         'default': None
     },
     {
+        'flag': '-g',
+        'name': '--map-image',
+        'action': 'store',
+        'required': False,
+        'nargs': '?',
+        'const': 'map.png',
+        'dest': 'map_image',
+        'help': 'Render map as PNG image (default: map.png)',
+        'default': None
+    },
+    {
         'flag': '-P',
         'name': '--set-robot-password',
         'action': 'store',
