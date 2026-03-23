@@ -11,7 +11,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='irbt',
-    version='0.3.1',
+    use_scm_version=True,
     author='D@korp',
     author_email='tidalf@ematome.com',
     description='A Library to interact with irbt appliances',
@@ -32,5 +32,5 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.11',
-    setup_requires=[],
+    setup_requires=['setuptools-scm'],
 )
