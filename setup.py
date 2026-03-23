@@ -11,10 +11,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='irbt',
-    version_config={
-        'version_format': '{tag}.dev{sha}',
-        'starting_version': '0.3.0'
-    },
+    version='0.3.1',
     author='D@korp',
     author_email='tidalf@ematome.com',
     description='A Library to interact with irbt appliances',
@@ -24,15 +21,16 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     scripts=['bin/irbt-cli.py'],
     install_requires=[
-          'aws-requests-auth',
-          'AWSIoTPythonSDK',
+        'aws-requests-auth',
+        'AWSIoTPythonSDK',
+        'Pillow>=9.0.0',
     ],
-    data_files = [('/usr/local/etc',['config/aws-root-ca1.cer'])],
+    data_files=[('/usr/local/etc', ['config/aws-root-ca1.cer'])],
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    python_requires='>=3.6',
-    setup_requires=['better-setuptools-git-version'],
+    python_requires='>=3.11',
+    setup_requires=[],
 )
